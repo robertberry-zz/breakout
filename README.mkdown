@@ -1,3 +1,0 @@
-# Pong
-
-My version of Pong in SDL.
