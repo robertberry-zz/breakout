@@ -1,5 +1,7 @@
 #include "timer.h"
 
+// The following code is taken from http://www.lazyfoo.net/SDL_tutorials/.
+
 Timer::Timer() {
     started = false;
     paused = false;
