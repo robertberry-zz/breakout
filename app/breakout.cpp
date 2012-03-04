@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "entity.h"
 #include "ball.h"
+#include "image_pack.h"
 
 const char *CAPTION = "Breakout";
 const int SCREEN_WIDTH = 640;
@@ -28,13 +29,13 @@ SDL_Surface *ball_image = NULL;
 SDL_Event event;
 
 bool init();
-bool load_images();
 
 int main (int argc, char **argv) {
     using std::cerr;
     using std::mem_fun;
     using std::bind2nd;
     using std::list;
+    using std::vector;
 
     list<Entity*> entities = list<Entity*>();
 
@@ -43,14 +44,14 @@ int main (int argc, char **argv) {
         return ERROR_INITIALIZE;
     }
 
-    if (!load_images()) {
-        cerr << "Error loading images.";
-        return ERROR_LOAD_IMAGES;
-    }
+    const char *paths[] = {"ball.png"};
+    vector<string> image_paths(paths, paths + sizeof(paths) / sizeof(char*));
+
+    ImagePack images = ImagePack(image_paths);
 
     bool running = true;
     Timer timer = Timer();
-    Ball ball = Ball(ball_image, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, 1);
+    Ball ball = Ball(images.get_image("ball.png"), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, 1);
     int remaining = 0;
 
     entities.push_back(&ball);
@@ -100,13 +101,5 @@ bool init() {
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
     if (screen == NULL) return false;
     SDL_WM_SetCaption(CAPTION, NULL);
-    return true;
-}
-
-bool load_images() {
-    ball_image = load_image("res/ball.png");
-
-    if (ball_image == NULL) return false;
-
     return true;
 }
