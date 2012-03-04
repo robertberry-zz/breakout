@@ -28,12 +28,14 @@ SDL_Event event;
 
 bool init();
 bool load_images();
-void render_entity(Entity *entity);
 
 int main (int argc, char **argv) {
     using std::cerr;
+    using std::mem_fun;
+    using std::bind2nd;
+    using std::vector;
 
-    std::vector<Entity*> entities = std::vector<Entity*>();
+    vector<Entity*> entities = vector<Entity*>();
 
     if (!init()) {
         cerr << "Error initializing SDL.";
@@ -63,14 +65,14 @@ int main (int argc, char **argv) {
             }
         }
 
-        for_each(entities.begin(), entities.end(), std::mem_fun(&Entity::step));
-        remove_if(entities.begin(), entities.end(), std::mem_fun(&Entity::is_dead));
+        for_each(entities.begin(), entities.end(), mem_fun(&Entity::step));
+        remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
 
         /** rendering logic **/
         // white background
         SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
-
-        for_each(entities.begin(), entities.end(), render_entity);
+        for_each(entities.begin(), entities.end(),
+                 bind2nd(mem_fun<void, Entity, SDL_Surface *>(&Entity::render), screen));
 
         /** limit framerate **/
         
@@ -87,10 +89,6 @@ int main (int argc, char **argv) {
     }
 
     return 0;
-}
-
-void render_entity(Entity *entity) {
-    entity->render(screen);
 }
 
 bool init() {
