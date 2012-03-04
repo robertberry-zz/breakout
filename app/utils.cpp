@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <iostream>
 
 SDL_Surface *load_image( std::string filename )
 {
@@ -12,13 +13,14 @@ SDL_Surface *load_image( std::string filename )
     loadedImage = IMG_Load( filename.c_str() );
 
     //If the image loaded
-    if( loadedImage != NULL )
-    {
-        //Create an optimized surface
-        optimizedImage = SDL_DisplayFormat( loadedImage );
+    if (loadedImage) {
+        // Create an optimized surface (alpha so PNGs retain transparency)
+        optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
 
         //Free the old surface
         SDL_FreeSurface( loadedImage );
+    } else {
+        std::cerr << SDL_GetError() << std::endl;
     }
 
     //Return the optimized surface

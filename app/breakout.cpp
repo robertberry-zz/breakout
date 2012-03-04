@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "utils.h"
 #include "timer.h"
@@ -26,6 +27,7 @@ SDL_Event event;
 
 bool init();
 bool load_images();
+bool is_dead(Entity *entity);
 
 int main (int argc, char **argv) {
     using std::cerr;
@@ -44,7 +46,7 @@ int main (int argc, char **argv) {
 
     bool running = true;
     Timer timer = Timer();
-    Ball ball = Ball(ball_image, 50, 50);
+    Ball ball = Ball(ball_image, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, 1);
     int remaining = 0;
 
     entities.push_back(&ball);
@@ -63,6 +65,8 @@ int main (int argc, char **argv) {
         for (int i = 0; i < entities.size(); ++i) {
             entities[i]->step();
         }
+
+        remove_if(entities.begin(), entities.end(), is_dead);
 
         /** rendering logic **/
         // white background
@@ -89,7 +93,11 @@ int main (int argc, char **argv) {
     return 0;
 }
 
-bool init () {
+bool is_dead(Entity *entity) {
+    return entity->is_dead();
+}
+
+bool init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
         return false;
     }
