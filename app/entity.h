@@ -8,7 +8,7 @@
  * rendered needs to be implemented as a subclass.
  */
 class Entity {
- public:
+public:
     /**
      * Step logic - called once per frame, before rendering.
      */

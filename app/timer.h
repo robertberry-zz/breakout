@@ -4,12 +4,12 @@
 #include "SDL/SDL.h"
 
 class Timer {
- private:
+private:
     bool started;
     bool paused;
     int start_ticks;
     int paused_ticks;
- public:
+public:
     Timer();
 
     void start();
