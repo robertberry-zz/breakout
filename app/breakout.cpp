@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 #include "utils.h"
 #include "timer.h"
@@ -27,7 +28,7 @@ SDL_Event event;
 
 bool init();
 bool load_images();
-bool is_dead(Entity *entity);
+void render_entity(Entity *entity);
 
 int main (int argc, char **argv) {
     using std::cerr;
@@ -62,19 +63,14 @@ int main (int argc, char **argv) {
             }
         }
 
-        for (int i = 0; i < entities.size(); ++i) {
-            entities[i]->step();
-        }
-
-        remove_if(entities.begin(), entities.end(), is_dead);
+        for_each(entities.begin(), entities.end(), std::mem_fun(&Entity::step));
+        remove_if(entities.begin(), entities.end(), std::mem_fun(&Entity::is_dead));
 
         /** rendering logic **/
         // white background
         SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
 
-        for (int i = 0; i < entities.size(); ++i) {
-            entities[i]->render(screen);
-        }
+        for_each(entities.begin(), entities.end(), render_entity);
 
         /** limit framerate **/
         
@@ -93,8 +89,8 @@ int main (int argc, char **argv) {
     return 0;
 }
 
-bool is_dead(Entity *entity) {
-    return entity->is_dead();
+void render_entity(Entity *entity) {
+    entity->render(screen);
 }
 
 bool init() {
