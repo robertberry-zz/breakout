@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <algorithm>
 #include <functional>
 
@@ -33,9 +34,9 @@ int main (int argc, char **argv) {
     using std::cerr;
     using std::mem_fun;
     using std::bind2nd;
-    using std::vector;
+    using std::list;
 
-    vector<Entity*> entities = vector<Entity*>();
+    list<Entity*> entities = list<Entity*>();
 
     if (!init()) {
         cerr << "Error initializing SDL.";
