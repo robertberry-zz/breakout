@@ -47,11 +47,19 @@ int main (int argc, char **argv) {
 
     const char *paths[] = {"ball.png"};
     vector<string> image_paths(paths, paths + sizeof(paths) / sizeof(char*));
-    ImagePack images = ImagePack(image_paths);
+    ImagePack *images;
+
+    try {
+        images = new ImagePack(image_paths);
+    } catch (std::runtime_error e) {
+        cerr << "Error loading images.";
+        return ERROR_LOAD_IMAGES;
+    }
 
     bool running = true;
     Timer timer = Timer();
-    Ball ball = Ball(images.get_image("ball.png"), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0, 1);
+    Ball ball = Ball(images->get_image("ball.png"), SCREEN_WIDTH / 2,
+                     SCREEN_HEIGHT / 2, 0, 1);
     int remaining = 0;
 
     entities.push_back(&ball);
@@ -72,9 +80,11 @@ int main (int argc, char **argv) {
 
         /** rendering logic **/
         // white background
-        SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+        SDL_FillRect(screen, &screen->clip_rect,
+                     SDL_MapRGB(screen->format, 0xFF, 0xFF, 0xFF));
         for_each(entities.begin(), entities.end(),
-                 bind2nd(mem_fun<void, Entity, SDL_Surface *>(&Entity::render), screen));
+                 bind2nd(mem_fun<void, Entity, SDL_Surface *>(&Entity::render),
+                         screen));
 
         /** limit framerate **/
         
@@ -90,6 +100,8 @@ int main (int argc, char **argv) {
         }
     }
 
+    delete images;
+
     return 0;
 }
 
@@ -98,7 +110,8 @@ bool init() {
         return false;
     }
 
-    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
+    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP,
+                              SDL_SWSURFACE);
     if (screen == NULL) return false;
     SDL_WM_SetCaption(CAPTION, NULL);
     return true;

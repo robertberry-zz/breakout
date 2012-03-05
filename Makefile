@@ -20,4 +20,4 @@ timer.o: $(SOURCE_DIR)timer.h $(SOURCE_DIR)timer.cpp
 utils.o: $(SOURCE_DIR)utils.h $(SOURCE_DIR)utils.cpp
 	g++ -c $(SOURCE_DIR)utils.cpp
 
-clean: rm -f $(OBJS)
+clean: rm -f $(OBJS) breakout
