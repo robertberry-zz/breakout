@@ -1,5 +1,5 @@
 SOURCE_DIR = src/
-OBJS = ball.o breakout.o image_pack.o timer.o utils.o
+OBJS = ball.o breakout.o image_pack.o timer.o utils.o bat.o
 INCLUDES = -lSDL -lSDL_image
 
 breakout: $(OBJS)
@@ -7,6 +7,9 @@ breakout: $(OBJS)
 
 ball.o: $(SOURCE_DIR)ball.h $(SOURCE_DIR)ball.cpp
 	g++ -c $(SOURCE_DIR)ball.cpp
+
+bat.o: $(SOURCE_DIR)bat.h $(SOURCE_DIR)bat.cpp
+	g++ -c $(SOURCE_DIR)bat.cpp
 
 breakout.o: $(SOURCE_DIR)breakout.cpp
 	g++ -c $(SOURCE_DIR)breakout.cpp

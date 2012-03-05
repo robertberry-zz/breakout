@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "entity.h"
 #include "ball.h"
+#include "bat.h"
 #include "image_pack.h"
 
 const char *CAPTION = "Breakout";
@@ -32,6 +33,8 @@ SDL_Event event;
 bool init();
 
 int main (int argc, char **argv) {
+    using breakout::Ball;
+    using breakout::Bat;
     using std::cerr;
     using std::mem_fun;
     using std::bind2nd;
@@ -45,7 +48,7 @@ int main (int argc, char **argv) {
         return ERROR_INITIALIZE;
     }
 
-    const char *paths[] = {"ball.png"};
+    const char *paths[] = {"ball.png", "bat.png"};
     vector<string> image_paths(paths, paths + sizeof(paths) / sizeof(char*));
     ImagePack *images;
 
@@ -60,9 +63,12 @@ int main (int argc, char **argv) {
     Timer timer = Timer();
     Ball ball = Ball(images->get_image("ball.png"), SCREEN_WIDTH / 2,
                      SCREEN_HEIGHT / 2, 0, 1);
+    Bat bat = Bat(images->get_image("bat.png"), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT - 50);
     int remaining = 0;
 
     entities.push_back(&ball);
+    entities.push_back(&bat);
 
     while (running) {
         timer.start();
