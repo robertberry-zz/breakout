@@ -10,6 +10,14 @@ namespace breakout {
     {}
 
     void Bat::step() {
+        Uint8 *keystates = SDL_GetKeyState(NULL);
+        if (keystates[SDLK_RIGHT]) {
+            x_velocity = 10;
+        } else if (keystates[SDLK_LEFT]) {
+            x_velocity = -10;
+        } else {
+            x_velocity = 0;
+        }
         x += x_velocity;
     }
 
