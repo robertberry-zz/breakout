@@ -1,10 +1,11 @@
 #include "utils.h"
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
 
 // The following code is taken from http://www.lazyfoo.net/SDL_tutorials/.
 // I added the exception stuff.
+
+using std::string;
 
 /**
  * Given an image path from the project root, returns an SDL_Surface of the
@@ -13,7 +14,7 @@
  * @param filename The path
  * @return The surface
  */
-SDL_Surface *load_image(std::string filename) {
+SDL_Surface *load_image(string filename) {
     SDL_Surface *loadedImage = NULL;
     SDL_Surface *optimizedImage = NULL;
 
@@ -25,9 +26,8 @@ SDL_Surface *load_image(std::string filename) {
         // Free the old surface
         SDL_FreeSurface( loadedImage );
     } else {
-        std::stringstream error;
-        error << "Unable to load image at '" << filename << "'";
-        throw new std::runtime_error(error.str());
+        throw new std::runtime_error(string("Unable to load image at ") +
+                                            filename);
     }
 
     return optimizedImage;

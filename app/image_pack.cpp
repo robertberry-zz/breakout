@@ -1,13 +1,9 @@
 #include "image_pack.h"
 #include "utils.h"
-#include <sstream>
 #include <algorithm>
 
-using std::stringstream;
-
 ImagePack::ImagePack(StringVector paths) :
-    images()
-{
+    images() {
     for_each(paths.begin(), paths.end(),
              std::bind1st(std::mem_fun(&ImagePack::add_image), this));
 }
@@ -20,9 +16,7 @@ ImagePack::ImagePack(StringVector paths) :
  * @param path The path to the image relative to the /res directory.
  */
 void ImagePack::add_image(string path) {
-    stringstream full_path;
-    full_path << "res/" << path;
-    SDL_Surface *image = load_image(full_path.str());
+    SDL_Surface *image = load_image(string("res/") + path);
     images.insert(SurfaceMap::value_type(path, image));
 }
 
@@ -48,9 +42,8 @@ SDL_Surface *ImagePack::get_image(string path) {
     SurfaceMap::iterator iter = images.find(path);
 
     if (iter == images.end()) {
-        stringstream error;
-        error << "ImagePack does not contain image at " << path;
-        throw new std::invalid_argument(error.str());
+        throw new std::invalid_argument(string("ImagePack does not contain "
+                                               "image at ") + path);
     }
 
     return iter->second;

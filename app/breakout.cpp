@@ -5,6 +5,7 @@
 #include <list>
 #include <algorithm>
 #include <functional>
+#include <stdexcept>
 
 #include "utils.h"
 #include "timer.h"
@@ -46,7 +47,6 @@ int main (int argc, char **argv) {
 
     const char *paths[] = {"ball.png"};
     vector<string> image_paths(paths, paths + sizeof(paths) / sizeof(char*));
-
     ImagePack images = ImagePack(image_paths);
 
     bool running = true;
