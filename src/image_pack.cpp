@@ -42,8 +42,8 @@ SDL_Surface *ImagePack::get_image(string path) {
     SurfaceMap::iterator iter = images.find(path);
 
     if (iter == images.end()) {
-        throw new std::invalid_argument(string("ImagePack does not contain "
-                                               "image at ") + path);
+        throw std::invalid_argument(string("ImagePack does not contain "
+                                           "image at ") + path);
     }
 
     return iter->second;

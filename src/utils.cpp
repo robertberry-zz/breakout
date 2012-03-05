@@ -26,8 +26,8 @@ SDL_Surface *load_image(string filename) {
         // Free the old surface
         SDL_FreeSurface( loadedImage );
     } else {
-        throw new std::runtime_error(string("Unable to load image at ") +
-                                            filename);
+        throw std::runtime_error(string("Unable to load image at ") +
+                                 filename);
     }
 
     return optimizedImage;

@@ -1,1 +1,3 @@
-./app/main
+*.o
+*.gch
+breakout
