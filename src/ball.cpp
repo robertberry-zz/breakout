@@ -19,11 +19,23 @@ namespace breakout {
         y += y_velocity;
     }
 
+    void Ball::bounce() {
+        x_velocity = -x_velocity;
+        y_velocity = -y_velocity;
+    }
+
     void Ball::render(SDL_Surface *screen) {
         apply_surface(x, y, image, screen);
     }
 
     bool Ball::is_dead() {
         return y > SCREEN_HEIGHT;
+    }
+
+    SDL_Rect Ball::get_rect() {
+        SDL_Rect rect = image->clip_rect;
+        rect.x = x;
+        rect.y = y;
+        return rect;
     }
 }

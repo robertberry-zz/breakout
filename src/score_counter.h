@@ -12,6 +12,7 @@ namespace breakout {
     private:
         TTF_Font *font;
         SDL_Color text_color;
+        SDL_Surface *surface;
         int score;
         int x, y;
     public:
@@ -24,6 +25,7 @@ namespace breakout {
         void step();
         void render(SDL_Surface *screen);
         bool is_dead();
+        SDL_Rect get_rect();
     };
 }
 

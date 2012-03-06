@@ -28,6 +28,13 @@ public:
      * @return bool Whether dead
      */
     virtual bool is_dead() = 0;
+
+    /**
+     * Returns the rect for collision detection
+     *
+     * @return The rect
+     */
+    virtual SDL_Rect get_rect() = 0;
 };
 
 #endif

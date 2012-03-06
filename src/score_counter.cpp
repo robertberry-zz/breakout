@@ -12,7 +12,8 @@ namespace breakout {
         text_color(color),
         x(5),
         y(5),
-        font(NULL)
+        font(NULL),
+        surface(NULL)
     {
         font = TTF_OpenFont((string("res/") + font_name).c_str(), font_size);
         if (font == NULL) {
@@ -69,17 +70,15 @@ namespace breakout {
         stringstream text_score;
 
         text_score << score;
-        score_surface = TTF_RenderText_Solid(font, text_score.str().c_str(),
-                                             text_color);
+        surface = TTF_RenderText_Solid(font, text_score.str().c_str(),
+                                       text_color);
 
-        if (score_surface == NULL) {
+        if (surface == NULL) {
             throw std::runtime_error("Failed trying to render score counter.");
         }
 
         // render here
-        apply_surface(x, y, score_surface, screen);
-
-        SDL_FreeSurface(score_surface);
+        apply_surface(x, y, surface, screen);
     }
 
     /**
@@ -87,5 +86,9 @@ namespace breakout {
      */
     bool ScoreCounter::is_dead() {
         return false;
+    }
+
+    SDL_Rect ScoreCounter::get_rect() {
+        return surface->clip_rect;
     }
 }

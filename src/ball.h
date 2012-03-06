@@ -14,9 +14,11 @@ namespace breakout {
         int x_velocity, y_velocity;
     public:
         Ball(SDL_Surface *image, int x, int y, int x_vel=0, int y_vel=0);
-        virtual void step();
-        virtual void render(SDL_Surface *screen);
+        void step();
+        void render(SDL_Surface *screen);
+        void bounce();
         bool is_dead();
+        SDL_Rect get_rect();
     };
 }
 

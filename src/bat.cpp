@@ -28,4 +28,11 @@ namespace breakout {
     bool Bat::is_dead() {
         return false;
     }
+
+    SDL_Rect Bat::get_rect() {
+        SDL_Rect rect = image->clip_rect;
+        rect.x = x;
+        rect.y = y;
+        return rect;        
+    }
 }

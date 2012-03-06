@@ -14,6 +14,7 @@ namespace breakout {
         void step();
         void render(SDL_Surface *screen);
         bool is_dead();
+        SDL_Rect get_rect();
     };
 }
 

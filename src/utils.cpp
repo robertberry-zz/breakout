@@ -7,6 +7,35 @@
 
 using std::string;
 
+namespace breakout {
+    bool collides(Entity *a, Entity *b) {
+        return collides(a->get_rect(), b->get_rect());
+    }
+    
+    bool collides(SDL_Rect a, SDL_Rect b) {
+        // the side of the rects
+        int a_left, a_right, b_left, b_right;
+        int a_top, a_bottom, b_top, b_bottom;
+
+        a_left = a.x;
+        a_right = a.x + a.w;
+        a_top = a.y;
+        a_bottom = a.y + a.h;
+
+        b_left = b.x;
+        b_right = b.x + b.w;
+        b_top = b.y;
+        b_bottom = b.y + b.h;
+
+        if (a_bottom <= b_top) return false;
+        if (a_top >= b_bottom) return false;
+        if (a_right <= b_left) return false;
+        if (a_left >= b_right) return false;
+
+        return true;
+    }
+}
+
 /**
  * Given an image path from the project root, returns an SDL_Surface of the
  * image.

@@ -28,8 +28,6 @@ enum { ERROR_INITIALIZE = 1,
 const int MAXIMUM_FPS = 40;
 
 SDL_Surface *screen = NULL;
-SDL_Surface *ball_image = NULL;
-
 SDL_Event event;
 
 void clean_up();
@@ -83,6 +81,10 @@ int main (int argc, char **argv) {
             }
         }
 
+        if (collides(&ball, &bat)) {
+            ball.bounce();
+        }
+        
         for_each(entities.begin(), entities.end(), mem_fun(&Entity::step));
         remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
 

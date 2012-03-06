@@ -7,6 +7,7 @@ classic arcade game Breakout.
 
 * SDL
 * SDL_image
+* SDL_ttf
 
 ## Build
 
