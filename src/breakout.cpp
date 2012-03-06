@@ -1,4 +1,5 @@
 #include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -13,6 +14,7 @@
 #include "ball.h"
 #include "bat.h"
 #include "image_pack.h"
+#include "score_counter.h"
 
 const char *CAPTION = "Breakout";
 const int SCREEN_WIDTH = 640;
@@ -30,16 +32,12 @@ SDL_Surface *ball_image = NULL;
 
 SDL_Event event;
 
+void clean_up();
 bool init();
 
 int main (int argc, char **argv) {
-    using breakout::Ball;
-    using breakout::Bat;
-    using std::cerr;
-    using std::mem_fun;
-    using std::bind2nd;
-    using std::list;
-    using std::vector;
+    using namespace breakout;
+    using namespace std;
 
     list<Entity*> entities = list<Entity*>();
 
@@ -62,13 +60,17 @@ int main (int argc, char **argv) {
     bool running = true;
     Timer timer = Timer();
     Ball ball = Ball(images->get_image("ball.png"), SCREEN_WIDTH / 2,
-                     SCREEN_HEIGHT / 2, 0, 1);
+                     SCREEN_HEIGHT / 2, 0, 10);
     Bat bat = Bat(images->get_image("bat.png"), SCREEN_WIDTH / 2,
                   SCREEN_HEIGHT - 50);
+    SDL_Color score_color = {0, 0, 0};
+    ScoreCounter score = ScoreCounter(0, string("LiberationSans-Regular.ttf"), 20,
+                                      score_color);
     int remaining = 0;
 
     entities.push_back(&ball);
     entities.push_back(&bat);
+    entities.push_back(&score);
 
     while (running) {
         timer.start();
@@ -108,11 +110,28 @@ int main (int argc, char **argv) {
 
     delete images;
 
+    clean_up();
+
     return 0;
 }
 
+/**
+ * Closes external libraries (SDL, TTF)
+ */
+void clean_up() {
+    TTF_Quit();
+    SDL_Quit();
+}
+
+/**
+ * Sets up external libraries and window
+ */
 bool init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+        return false;
+    }
+
+    if (TTF_Init() == -1) {
         return false;
     }
 
