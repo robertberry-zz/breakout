@@ -35,4 +35,16 @@ namespace breakout {
         rect.y = y;
         return rect;        
     }
+
+    int Bat::getX() {
+        return x;
+    }
+
+    int Bat::getY() {
+        return y;
+    }
+
+    void Bat::setX(int n) {
+        x = n;
+    }
 }

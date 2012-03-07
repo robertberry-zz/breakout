@@ -18,6 +18,8 @@ namespace breakout {
         void render(SDL_Surface *screen);
         void bounce();
         bool is_dead();
+        int getX();
+        int getY();        
         SDL_Rect get_rect();
     };
 }

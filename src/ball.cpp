@@ -38,4 +38,12 @@ namespace breakout {
         rect.y = y;
         return rect;
     }
+
+    int Ball::getX() {
+        return x;
+    }
+
+    int Ball::getY() {
+        return y;
+    }
 }

@@ -58,7 +58,7 @@ int main (int argc, char **argv) {
     bool running = true;
     Timer timer = Timer();
     Ball ball = Ball(images->get_image("ball.png"), SCREEN_WIDTH / 2,
-                     SCREEN_HEIGHT / 2, 0, 10);
+                     SCREEN_HEIGHT / 2, 5, 10);
     Bat bat = Bat(images->get_image("bat.png"), SCREEN_WIDTH / 2,
                   SCREEN_HEIGHT - 50);
     SDL_Color score_color = {0, 0, 0};
@@ -69,6 +69,10 @@ int main (int argc, char **argv) {
     entities.push_back(&ball);
     entities.push_back(&bat);
     entities.push_back(&score);
+
+    int bat_width = bat.get_rect().w;
+    int ball_width = ball.get_rect().w;
+    int ball_height = ball.get_rect().h;
 
     while (running) {
         timer.start();
@@ -81,12 +85,23 @@ int main (int argc, char **argv) {
             }
         }
 
+        for_each(entities.begin(), entities.end(), mem_fun(&Entity::step));
+        remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
+        
         if (collides(&ball, &bat)) {
             ball.bounce();
         }
+
+        if (ball.getX() < 0 || ball.getX() >= SCREEN_WIDTH - ball_width ||
+            ball.getY() < 0 || ball.getY() >= SCREEN_HEIGHT - ball_height) {
+            ball.bounce();
+        }
         
-        for_each(entities.begin(), entities.end(), mem_fun(&Entity::step));
-        remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
+        if (bat.getX() < 0) {
+            bat.setX(0);
+        } else if (bat.getX() > SCREEN_WIDTH - bat_width) {
+            bat.setX(SCREEN_WIDTH - bat_width);
+        }
 
         /** rendering logic **/
         // white background
