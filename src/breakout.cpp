@@ -14,6 +14,7 @@
 #include "entity.h"
 #include "ball.h"
 #include "bat.h"
+#include "brick.h"
 #include "image_pack.h"
 #include "score_counter.h"
 
@@ -21,6 +22,7 @@ const char *CAPTION = "Breakout";
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int SCREEN_BPP = 32;
+const int N_BRICKS = 20;
 
 enum { ERROR_INITIALIZE = 1,
        ERROR_LOAD_IMAGES,
@@ -46,7 +48,7 @@ int main (int argc, char **argv) {
         return ERROR_INITIALIZE;
     }
 
-    const char *paths[] = {"ball.png", "bat.png"};
+    const char *paths[] = {"ball.png", "bat.png", "brick.png"};
     vector<string> image_paths(paths, paths + sizeof(paths) / sizeof(char*));
     ImagePack *images;
 
@@ -68,12 +70,18 @@ int main (int argc, char **argv) {
                                       score_color);
     int remaining = 0;
 
+    Brick brick = Brick(images->get_image("brick.png"));
+    brick.set_x(40);
+    brick.set_y(50);
+    
     entities.push_back(&ball);
     entities.push_back(&bat);
+    entities.push_back(&brick);
 
     renders.push_back(&ball);
     renders.push_back(&bat);
     renders.push_back(&score);
+    renders.push_back(&brick);
 
     int bat_width = bat.get_rect().w;
     int ball_width = ball.get_rect().w;
@@ -96,6 +104,10 @@ int main (int argc, char **argv) {
         if (collides(&ball, &bat)) {
             ball.set_x_velocity(-ball.get_x_velocity());
             ball.set_y_velocity(-ball.get_y_velocity());
+        }
+
+        if (collides(&ball, &brick)) {
+            brick.destroy();
         }
 
         if (ball.get_x() < 0 || ball.get_x() >= SCREEN_WIDTH - ball_width) {

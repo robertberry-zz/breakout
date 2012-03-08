@@ -4,7 +4,7 @@
 #include "entity.h"
 
 namespace breakout {
-    class Bat: public Entity {
+    class Bat : public Entity {
     private:
         SDL_Surface *image;
     public:

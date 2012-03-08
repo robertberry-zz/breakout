@@ -1,5 +1,8 @@
+# Rather messy Makefile. I'm sure all of this can (and should) be automated. Am
+# going to look into autoconf etc. soon.
+
 SOURCE_DIR = src/
-OBJS = ball.o breakout.o image_pack.o timer.o utils.o bat.o score_counter.o entity.o
+OBJS = ball.o breakout.o image_pack.o timer.o utils.o bat.o score_counter.o entity.o brick.o
 INCLUDES = -lSDL -lSDL_image -lSDL_ttf
 
 breakout: $(OBJS)
@@ -10,6 +13,9 @@ ball.o: $(SOURCE_DIR)ball.h $(SOURCE_DIR)ball.cpp
 
 bat.o: $(SOURCE_DIR)bat.h $(SOURCE_DIR)bat.cpp
 	g++ -c $(SOURCE_DIR)bat.cpp
+
+brick.o: $(SOURCE_DIR)brick.h $(SOURCE_DIR)brick.cpp
+	g++ -c $(SOURCE_DIR)brick.cpp
 
 breakout.o: $(SOURCE_DIR)breakout.cpp
 	g++ -c $(SOURCE_DIR)breakout.cpp
