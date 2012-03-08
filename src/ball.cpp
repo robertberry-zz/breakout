@@ -17,7 +17,7 @@ namespace breakout {
     }
 
     bool Ball::is_dead() {
-        return get_y() > SCREEN_HEIGHT;
+        return false;
     }
 
     SDL_Rect Ball::get_rect() {
