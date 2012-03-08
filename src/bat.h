@@ -9,10 +9,8 @@ namespace breakout {
         SDL_Surface *image;
     public:
         Bat(SDL_Surface *img, int init_x, int init_y);
-        void render(SDL_Surface *screen);
         bool is_dead();
         void step();
-        SDL_Rect get_rect();
     };
 }
 

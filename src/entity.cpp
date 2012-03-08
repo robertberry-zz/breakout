@@ -1,13 +1,26 @@
 #include "entity.h"
+#include "utils.h"
 
 namespace breakout {
-    Entity::Entity() :
+    Entity::Entity(SDL_Surface *img) :
         x(0),
         y(0),
         x_velocity(0),
-        y_velocity(0)
+        y_velocity(0),
+        image(img)
     {}
 
+    void Entity::render(SDL_Surface *screen) {
+        apply_surface(get_x(), get_y(), image, screen);
+    }
+
+    SDL_Rect Entity::get_rect() {
+        SDL_Rect rect = image->clip_rect;
+        rect.x = get_x();
+        rect.y = get_y();
+        return rect;
+    }
+    
     void Entity::set_x(int n) {
         x = n;
     }

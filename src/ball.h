@@ -12,9 +12,7 @@ namespace breakout {
         SDL_Surface *image;
     public:
         Ball(SDL_Surface *image, int x, int y, int x_vel=0, int y_vel=0);
-        void render(SDL_Surface *screen);
         bool is_dead();
-        SDL_Rect get_rect();
     };
 }
 

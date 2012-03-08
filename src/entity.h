@@ -13,8 +13,16 @@ namespace breakout {
     private:
         int x, y;
         int x_velocity, y_velocity;
+        SDL_Surface *image;
     public:
-        Entity();
+        Entity(SDL_Surface *image);
+
+        /**
+         * Renders the Entity on to the screen
+         *
+         * @param screen The screen
+         */
+        void render(SDL_Surface *screen);
 
         /**
          * Sets the x co-ordinate of the entity
@@ -90,7 +98,7 @@ namespace breakout {
          *
          * @return The rect
          */
-        virtual SDL_Rect get_rect() = 0;
+        SDL_Rect get_rect();
     };
 }
 
