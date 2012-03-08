@@ -91,7 +91,7 @@ namespace breakout {
          *
          * @return bool Whether dead
          */
-        virtual bool is_dead() = 0;
+        virtual bool is_dead();
 
         /**
          * Returns the rect for collision detection.

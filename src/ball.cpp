@@ -8,8 +8,4 @@ namespace breakout {
         set_x(init_x); set_y(init_y);
         set_x_velocity(init_x_vel); set_y_velocity(init_y_vel);
     }
-
-    bool Ball::is_dead() {
-        return false;
-    }
 }

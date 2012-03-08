@@ -7,6 +7,9 @@ namespace breakout {
         set_x(init_x); set_y(init_y);
     }
 
+    /**
+     * Controls bat's movement.
+     */
     void Bat::step() {
         Uint8 *keystates = SDL_GetKeyState(NULL);
         if (keystates[SDLK_RIGHT]) {
@@ -17,9 +20,5 @@ namespace breakout {
             set_x_velocity(0);
         }
         Entity::step();
-    }
-
-    bool Bat::is_dead() {
-        return false;
     }
 }
