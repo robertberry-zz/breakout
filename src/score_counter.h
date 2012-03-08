@@ -1,6 +1,6 @@
 #ifndef _SCORE_COUNTER_H_
 #define _SCORE_COUNTER_H_
-#include "entity.h"
+#include "renderable.h"
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 #include <string>
@@ -8,7 +8,7 @@
 using std::string;
 
 namespace breakout {
-    class ScoreCounter : public Entity {
+    class ScoreCounter : public Renderable {
     private:
         TTF_Font *font;
         SDL_Color text_color;
@@ -22,9 +22,7 @@ namespace breakout {
         void set_score(int n);
         int get_score();
         void add_score(int n);
-        void step();
         void render(SDL_Surface *screen);
-        bool is_dead();
         SDL_Rect get_rect();
     };
 }

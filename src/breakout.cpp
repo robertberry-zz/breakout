@@ -10,6 +10,7 @@
 
 #include "utils.h"
 #include "timer.h"
+#include "renderable.h"
 #include "entity.h"
 #include "ball.h"
 #include "bat.h"
@@ -25,7 +26,7 @@ enum { ERROR_INITIALIZE = 1,
        ERROR_LOAD_IMAGES,
        ERROR_FLIP };
 
-const int MAXIMUM_FPS = 40;
+const int MAXIMUM_FPS = 50;
 
 SDL_Surface *screen = NULL;
 SDL_Event event;
@@ -38,6 +39,7 @@ int main (int argc, char **argv) {
     using namespace std;
 
     list<Entity*> entities = list<Entity*>();
+    list<Renderable*> renders = list<Renderable*>();
 
     if (!init()) {
         cerr << "Error initializing SDL.";
@@ -58,7 +60,7 @@ int main (int argc, char **argv) {
     bool running = true;
     Timer timer = Timer();
     Ball ball = Ball(images->get_image("ball.png"), SCREEN_WIDTH / 2,
-                     SCREEN_HEIGHT / 2, 5, 10);
+                     SCREEN_HEIGHT / 2, 5, 7);
     Bat bat = Bat(images->get_image("bat.png"), SCREEN_WIDTH / 2,
                   SCREEN_HEIGHT - 50);
     SDL_Color score_color = {0, 0, 0};
@@ -68,7 +70,10 @@ int main (int argc, char **argv) {
 
     entities.push_back(&ball);
     entities.push_back(&bat);
-    entities.push_back(&score);
+
+    renders.push_back(&ball);
+    renders.push_back(&bat);
+    renders.push_back(&score);
 
     int bat_width = bat.get_rect().w;
     int ball_width = ball.get_rect().w;
@@ -89,26 +94,30 @@ int main (int argc, char **argv) {
         remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
         
         if (collides(&ball, &bat)) {
-            ball.bounce();
+            ball.set_x_velocity(-ball.get_x_velocity());
+            ball.set_y_velocity(-ball.get_y_velocity());
         }
 
-        if (ball.getX() < 0 || ball.getX() >= SCREEN_WIDTH - ball_width ||
-            ball.getY() < 0 || ball.getY() >= SCREEN_HEIGHT - ball_height) {
-            ball.bounce();
+        if (ball.get_x() < 0 || ball.get_x() >= SCREEN_WIDTH - ball_width) {
+            ball.set_x_velocity(-ball.get_x_velocity());
+        }
+
+        if (ball.get_y() < 0 || ball.get_y() >= SCREEN_HEIGHT - ball_height) {
+            ball.set_y_velocity(-ball.get_y_velocity());
         }
         
-        if (bat.getX() < 0) {
-            bat.setX(0);
-        } else if (bat.getX() > SCREEN_WIDTH - bat_width) {
-            bat.setX(SCREEN_WIDTH - bat_width);
+        if (bat.get_x() < 0) {
+            bat.set_x(0);
+        } else if (bat.get_x() > SCREEN_WIDTH - bat_width) {
+            bat.set_x(SCREEN_WIDTH - bat_width);
         }
 
         /** rendering logic **/
         // white background
         SDL_FillRect(screen, &screen->clip_rect,
                      SDL_MapRGB(screen->format, 0xFF, 0xFF, 0xFF));
-        for_each(entities.begin(), entities.end(),
-                 bind2nd(mem_fun<void, Entity, SDL_Surface *>(&Entity::render),
+        for_each(renders.begin(), renders.end(),
+                 bind2nd(mem_fun<void, Renderable, SDL_Surface *>(&Renderable::render),
                          screen));
 
         /** limit framerate **/

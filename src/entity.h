@@ -2,40 +2,97 @@
 #define _ENTITY_H_
 
 #include "SDL/SDL.h"
+#include "renderable.h"
 
-/**
- * Game entity interface. Any object in the game that has logic and / or can be
- * rendered needs to be implemented as a subclass.
- */
-class Entity {
-public:
+namespace breakout {
     /**
-     * Step logic - called once per frame, before rendering.
+     * Interface for classes that need both to be rendered and to have step logic
+     * for each frame.
      */
-    virtual void step() = 0;
+    class Entity : public Renderable {
+    private:
+        int x, y;
+        int x_velocity, y_velocity;
+    public:
+        Entity();
 
-    /**
-     * Given the screen surface render itself onto it.
-     *
-     * @param SDL_Surface *screen The screen
-     */
-    virtual void render(SDL_Surface *screen) = 0;
+        /**
+         * Sets the x co-ordinate of the entity
+         *
+         * @param n The new x co-ordinate
+         */
+        void set_x(int n);
 
-    /**
-     * Returns whether the Entity is dead yet. Once dead the game loop will
-     * remove the object from memory.
-     *
-     * @return bool Whether dead
-     */
-    virtual bool is_dead() = 0;
+        /**
+         * Sets the y co-ordinate of the entity
+         *
+         * @param n The new y co-ordinate
+         */
+        void set_y(int n);
 
-    /**
-     * Returns the rect for collision detection
-     *
-     * @return The rect
-     */
-    virtual SDL_Rect get_rect() = 0;
-};
+        /**
+         * Returns the x co-ordinate of the entity
+         *
+         * @return The x co-ordinate
+         */
+        int get_x();
+
+        /**
+         * Returns the y co-ordinate of the entity
+         *
+         * @return The y co-ordinate
+         */
+        int get_y();
+
+        /**
+         * Sets the x velocity of the entity
+         *
+         * @param n The new velocity
+         */
+        void set_x_velocity(int n);
+
+        /**
+         * Sets the y velocity of the entity
+         *
+         * @param n The new velocity 
+         */
+        void set_y_velocity(int n);
+
+        /**
+         * Returns the x velocity of the entity
+         *
+         * @return The x velocity
+         */
+        int get_x_velocity();
+
+        /**
+         * Returns the y velocity of the entity
+         *
+         * @return The y velocity
+         */
+        int get_y_velocity();
+        
+        /**
+         * Step logic - called once per frame, before rendering.
+         */
+        virtual void step();
+
+        /**
+         * Return whether the Entity is dead yet. Once dead the game loop will
+         * remove the object from memory.
+         *
+         * @return bool Whether dead
+         */
+        virtual bool is_dead() = 0;
+
+        /**
+         * Returns the rect for collision detection.
+         *
+         * @return The rect
+         */
+        virtual SDL_Rect get_rect() = 0;
+    };
+}
 
 #endif
 

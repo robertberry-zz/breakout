@@ -3,26 +3,25 @@
 
 namespace breakout {
     Bat::Bat(SDL_Surface *img, int init_x, int init_y) :
-        image(img),
-        x(init_x),
-        y(init_y),
-        x_velocity(0)
-    {}
+        image(img)
+    {
+        set_x(init_x); set_y(init_y);
+    }
 
     void Bat::step() {
         Uint8 *keystates = SDL_GetKeyState(NULL);
         if (keystates[SDLK_RIGHT]) {
-            x_velocity = 10;
+            set_x_velocity(10);
         } else if (keystates[SDLK_LEFT]) {
-            x_velocity = -10;
+            set_x_velocity(-10);
         } else {
-            x_velocity = 0;
+            set_x_velocity(0);
         }
-        x += x_velocity;
+        Entity::step();
     }
 
     void Bat::render(SDL_Surface *screen) {
-        apply_surface(x, y, image, screen);
+        apply_surface(get_x(), get_y(), image, screen);
     }
 
     bool Bat::is_dead() {
@@ -31,20 +30,8 @@ namespace breakout {
 
     SDL_Rect Bat::get_rect() {
         SDL_Rect rect = image->clip_rect;
-        rect.x = x;
-        rect.y = y;
+        rect.x = get_x();
+        rect.y = get_y();
         return rect;        
-    }
-
-    int Bat::getX() {
-        return x;
-    }
-
-    int Bat::getY() {
-        return y;
-    }
-
-    void Bat::setX(int n) {
-        x = n;
     }
 }

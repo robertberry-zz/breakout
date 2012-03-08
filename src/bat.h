@@ -7,16 +7,11 @@ namespace breakout {
     class Bat: public Entity {
     private:
         SDL_Surface *image;
-        int x, y;
-        int x_velocity;
     public:
         Bat(SDL_Surface *img, int init_x, int init_y);
-        void step();
         void render(SDL_Surface *screen);
         bool is_dead();
-        void setX(int n);
-        int getX();
-        int getY();
+        void step();
         SDL_Rect get_rect();
     };
 }

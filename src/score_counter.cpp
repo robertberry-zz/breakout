@@ -56,10 +56,6 @@ namespace breakout {
         score += n;
     }
 
-    void ScoreCounter::step() {
-        // nothing
-    }
-
     /**
      * Renders the score counter on the screen
      *
@@ -79,16 +75,5 @@ namespace breakout {
 
         // render here
         apply_surface(x, y, surface, screen);
-    }
-
-    /**
-     * Keep alive. Must be explicitly destroyed.
-     */
-    bool ScoreCounter::is_dead() {
-        return false;
-    }
-
-    SDL_Rect ScoreCounter::get_rect() {
-        return surface->clip_rect;
     }
 }
