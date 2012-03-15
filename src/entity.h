@@ -86,19 +86,19 @@ namespace breakout {
         virtual void step();
 
         /**
+         * Returns the rect for collision detection.
+         *
+         * @return The rect
+         */
+        SDL_Rect get_rect();
+
+        /**
          * Return whether the Entity is dead yet. Once dead the game loop will
          * remove the object from memory.
          *
          * @return bool Whether dead
          */
         virtual bool is_dead();
-
-        /**
-         * Returns the rect for collision detection.
-         *
-         * @return The rect
-         */
-        SDL_Rect get_rect();
     };
 }
 

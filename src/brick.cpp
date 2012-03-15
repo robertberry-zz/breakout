@@ -6,7 +6,7 @@ namespace breakout {
         alive(true)
     {}
     
-    virtual bool Brick::is_dead() {
+    bool Brick::is_dead() {
         return !alive;
     }
 

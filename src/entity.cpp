@@ -57,4 +57,8 @@ namespace breakout {
         set_x(get_x() + get_x_velocity());
         set_y(get_y() + get_y_velocity());
     }
+
+    bool Entity::is_dead() {
+        return false;
+    }
 }

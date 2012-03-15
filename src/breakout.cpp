@@ -99,7 +99,7 @@ int main (int argc, char **argv) {
         }
 
         for_each(entities.begin(), entities.end(), mem_fun(&Entity::step));
-        remove_if(entities.begin(), entities.end(), mem_fun(&Entity::is_dead));
+        entities.remove_if(mem_fun(&Entity::is_dead));
         
         if (collides(&ball, &bat)) {
             ball.set_x_velocity(-ball.get_x_velocity());
@@ -131,6 +131,7 @@ int main (int argc, char **argv) {
         for_each(renders.begin(), renders.end(),
                  bind2nd(mem_fun<void, Renderable, SDL_Surface *>(&Renderable::render),
                          screen));
+        renders.remove_if(mem_fun(&Renderable::is_dead));
 
         /** limit framerate **/
         

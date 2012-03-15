@@ -15,6 +15,14 @@ namespace breakout {
          * @param SDL_Surface *screen The screen
          */
         virtual void render(SDL_Surface *screen) = 0;
+
+        /**
+         * Return whether the Renderable is dead yet. Once dead the game loop will
+         * remove the object from memory.
+         *
+         * @return bool Whether dead
+         */
+        virtual bool is_dead();
     };
 }
 
