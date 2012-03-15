@@ -108,6 +108,9 @@ int main (int argc, char **argv) {
 
         if (collides(&ball, &brick)) {
             brick.destroy();
+            ball.set_x_velocity(-ball.get_x_velocity());
+            ball.set_y_velocity(-ball.get_y_velocity());
+            score.add_score(10);
         }
 
         if (ball.get_x() < 0 || ball.get_x() >= SCREEN_WIDTH - ball_width) {
